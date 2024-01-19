@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.example.sem3_dz.model.Issue;
-import org.example.sem3_dz.service.IssuerService;
+import org.example.sem3_dz.service.IssueService;
 
 import java.util.NoSuchElementException;
 
@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 public class IssuerController {
 
     @Autowired
-    private IssuerService service;
+    private IssueService service;
 
 //  @PutMapping
 //  public void returnBook(long issueId) {

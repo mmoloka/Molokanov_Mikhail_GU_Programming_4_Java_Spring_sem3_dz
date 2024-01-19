@@ -43,4 +43,8 @@ public class ReaderService {
                 filter(it -> Objects.equals(it.getReaderId(), id)).
                 toList();
     }
+
+    public List<Reader> getAllReaders() {
+        return readerRepository.getAllReaders();
+    }
 }

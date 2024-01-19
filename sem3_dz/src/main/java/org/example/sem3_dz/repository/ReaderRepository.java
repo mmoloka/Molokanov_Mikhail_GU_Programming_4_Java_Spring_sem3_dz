@@ -43,4 +43,8 @@ public class ReaderRepository {
         return readers;
     }
 
+    public List<Reader> getAllReaders() {
+        return readers;
+    }
+
 }

@@ -42,4 +42,8 @@ public class BookRepository {
         return books;
     }
 
+    public List<Book> getAllBooks() {
+        return books;
+    }
+
 }

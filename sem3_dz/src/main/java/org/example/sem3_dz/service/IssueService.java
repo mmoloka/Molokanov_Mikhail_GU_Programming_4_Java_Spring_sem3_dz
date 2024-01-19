@@ -12,12 +12,13 @@ import org.example.sem3_dz.repository.BookRepository;
 import org.example.sem3_dz.repository.IssueRepository;
 import org.example.sem3_dz.repository.ReaderRepository;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class IssuerService {
+public class IssueService {
 
     // спринг это все заинжектит
     private final BookRepository bookRepository;
@@ -49,5 +50,18 @@ public class IssuerService {
         }
         return issueRepository.getIssueById(id);
     }
+
+    public List<Issue> getAllIssues() {
+        return issueRepository.getAllIssues();
+    }
+
+    public String getNameOfBook(Issue issue) {
+        return bookRepository.getBookById(issue.getBookId()).getName();
+    }
+
+    public String getNameOfReader(Issue issue) {
+        return readerRepository.getReaderById(issue.getReaderId()).getName();
+    }
+
 
 }

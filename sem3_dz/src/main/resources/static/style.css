@@ -1,0 +1,22 @@
+body {
+    background-color: lightblue;
+}
+
+h1 {
+    color: navy;
+    font-family: 'Arial', sans-serif;
+}
+
+ul {
+    list-style-type: circle;
+    font-size: 1.5rem;
+    color: chocolate;
+}
+
+table, th, td {
+    border: 3px solid;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    color: chocolate;
+}

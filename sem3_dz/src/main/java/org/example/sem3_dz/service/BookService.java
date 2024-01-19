@@ -30,4 +30,8 @@ public class BookService {
     public List<Book> addBook(Book book) {
         return bookRepository.addBook(book);
     }
+
+    public List<Book> getAllBooks() {
+        return bookRepository.getAllBooks();
+    }
 }
