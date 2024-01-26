@@ -4,6 +4,10 @@ package org.example.sem3_dz.api;
  * DELETE /book/{id} - удалить книгу, POST /book - создать книгу
  */
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.example.sem3_dz.model.Book;
 import org.example.sem3_dz.service.BookService;
@@ -18,6 +22,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @RestController
 @RequestMapping("/book")
+@Tag(name = "Book")
 public class BookController {
     private final BookService bookService;
 
@@ -27,6 +32,11 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "get book by id", description = "Загружает книгу по ее индификационному номеру")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Книга успешно найдена"),
+            @ApiResponse(responseCode = "404", description = "Такой книги нет")}
+    )
     public ResponseEntity<Book> getBookById(@PathVariable long id) {
         final Book book;
         try {
@@ -39,6 +49,11 @@ public class BookController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "delete book by id", description = "Удаляет книгу по ее индификационному номеру")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Книга успешно удалена"),
+            @ApiResponse(responseCode = "404", description = "Такой книги нет")}
+    )
     public ResponseEntity<List<Book>> deleteBook(@PathVariable Long id) {
         final List<Book> books;
         try {
@@ -51,6 +66,8 @@ public class BookController {
     }
 
     @PostMapping
+    @Operation(summary = "add new book", description = "Добавляет новую книгу")
+    @ApiResponse(responseCode = "201", description = "Книга успешно создана")
     public ResponseEntity<List<Book>> addBook(@RequestBody Book book) {
         log.info("Добавлена книга:  name = {}", book.getName());
         return new ResponseEntity<>(bookService.addBook(book), HttpStatus.CREATED);

@@ -4,6 +4,10 @@ package org.example.sem3_dz.api;
  * 1.3 В контроллере IssueController добавить ресурс GET /issue/{id} - получить описание факта выдачи
  */
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +21,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @RestController
 @RequestMapping("/issue")
+@Tag(name = "Issue")
 public class IssuerController {
 
     @Autowired
@@ -28,6 +33,12 @@ public class IssuerController {
 //  }
 
     @PostMapping
+    @Operation(summary = "add new issue", description = "Добавляет новую карту выдачи")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Карта выдачи успешно создана"),
+            @ApiResponse(responseCode = "404", description = "Не найден читатель или книга"),
+            @ApiResponse(responseCode = "409", description = "Читатель не вернул книгу")}
+    )
     public ResponseEntity<Issue> issueBook(@RequestBody IssueRequest request) {
         log.info("Получен запрос на выдачу: readerId = {}, bookId = {}", request.getReaderId(), request.getBookId());
 
@@ -45,6 +56,11 @@ public class IssuerController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "get issue by id", description = "Загружает карту выдачи по ее индификационному номеру")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Книга успешно найдена"),
+            @ApiResponse(responseCode = "404", description = "Такой книги нет")}
+    )
     public ResponseEntity<Issue> getIssueById(@PathVariable long id) {
         final Issue issue;
         try {

@@ -5,6 +5,10 @@ package org.example.sem3_dz.api;
  * 2.2 В сервис читателя добавить ручку GET /reader/{id}/issue - вернуть список всех выдачей для данного читателя
  */
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.example.sem3_dz.model.Issue;
 import org.example.sem3_dz.model.Reader;
@@ -20,6 +24,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @RestController
 @RequestMapping("/reader")
+@Tag(name = "Reader")
 public class ReaderController {
     private final ReaderService readerService;
 
@@ -29,6 +34,11 @@ public class ReaderController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "get reader by id", description = "Загружает читателя по индификационному номеру")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Читатель успешно найден"),
+            @ApiResponse(responseCode = "404", description = "Такого читателя нет")}
+    )
     public ResponseEntity<Reader> getReaderById(@PathVariable long id) {
         final Reader reader;
         try {
@@ -41,6 +51,11 @@ public class ReaderController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "delete reader by id", description = "Удаляет читателя по индификационному номеру")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Читатель успешно удален"),
+            @ApiResponse(responseCode = "404", description = "Такого читателя нет")}
+    )
     public ResponseEntity<List<Reader>> deleteReader(@PathVariable long id) {
         final List<Reader> readers;
         try {
@@ -53,12 +68,19 @@ public class ReaderController {
     }
 
     @PostMapping
+    @Operation(summary = "add new reader", description = "Добавляет нового читателя")
+    @ApiResponse(responseCode = "201", description = "Читатель успешно создан")
     public ResponseEntity<List<Reader>> addReader(@RequestBody Reader reader) {
         log.info("Добавлен читатель:  name = {}", reader.getName());
         return new ResponseEntity<>(readerService.addReader(reader), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}/issue")
+    @Operation(summary = "get issues by reader id", description = "Загружает карты выдачи по индификационному номеру читателя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Карты выдачи читателя найдены"),
+            @ApiResponse(responseCode = "404", description = "Такого читателя нет")}
+    )
     public ResponseEntity<List<Issue>> getAllIssues(@PathVariable long id) {
         try {
             readerService.getReaderById(id);
